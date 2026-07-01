@@ -1,43 +1,32 @@
-;==========================================================
+;--------------------------------------------------
 ; MS Structural Tools
-; Layers.lsp
-; Creates all standard structural layers
-;==========================================================
+; Layer Manager
+; Version 1.0
+;--------------------------------------------------
 
-(defun MS:CreateLayer (name color ltype /)
-
-  (if (not (tblsearch "LAYER" name))
-    (command "-layer"
-             "M" name
-             "C" (itoa color) name
-             "LT" ltype name
-             ""
+(defun MS:CreateLayer (lay color ltype /)
+    (if (not (tblsearch "LAYER" lay))
+        (command "-layer"
+                 "M" lay
+                 "C" color ""
+                 "LT" ltype ""
+                 ""
+        )
     )
-  )
-
 )
 
-(defun MS:ProjectSetup ()
+(defun MS:CreateDefaultLayers ()
 
-  (princ "\nCreating Structural Layers...")
+    (MS:CreateLayer "COLUMN" "1" "Continuous")
+    (MS:CreateLayer "BEAM" "2" "Continuous")
+    (MS:CreateLayer "SLAB" "3" "Continuous")
+    (MS:CreateLayer "GRID" "8" "Center")
+    (MS:CreateLayer "DIM" "7" "Continuous")
+    (MS:CreateLayer "TEXT" "7" "Continuous")
+    (MS:CreateLayer "CENTER" "4" "Center")
+    (MS:CreateLayer "HIDDEN" "5" "Hidden")
 
-  ;; Main Layers
-
-  (MS:CreateLayer "S-GRID"      8  "CENTER")
-  (MS:CreateLayer "S-COLUMN"    1  "Continuous")
-  (MS:CreateLayer "S-BEAM"      2  "Continuous")
-  (MS:CreateLayer "S-BRACE"     3  "Continuous")
-  (MS:CreateLayer "S-PLATE"     4  "Continuous")
-  (MS:CreateLayer "S-BOLT"      5  "Continuous")
-  (MS:CreateLayer "S-DIM"       6  "Continuous")
-  (MS:CreateLayer "S-TEXT"      7  "Continuous")
-  (MS:CreateLayer "S-CENTER"    8  "CENTER")
-  (MS:CreateLayer "S-HIDDEN"    9  "HIDDEN")
-
-  (setvar "CLAYER" "S-COLUMN")
-
-  (princ "\nProject Setup Complete.")
-  (princ)
+    (princ "\nDefault Structural Layers Created.")
 
 )
 
